@@ -17,6 +17,8 @@ Our Walk A S-Smile Application consists of 6 functions (Map, Profile, Challenges
 4. Upon user login, the user can slide through the function tabs to see the 6 different functions of the application (Map, Profile, Challenges, Rewards, Leaderboard and Feedback).
 5. While user is on the Map page, user is able to enter their start location and end location as part of their First Mile and Last Mile. 
 6. Once user has entered a location for both start and end location text boxes, user will need to click on the Let's start walking! button. The preferred route will then be shown to the user in the Google MAP API shown in the empty box. 
+8. To edit user profile, user can slide through the Profile tab to make amendments. The format for the Date of Birth will be in the "YYYY-MMM-DD" format. The Physical Status column will have to be filled up as <???>
+9. Once amendments are done, click on the Edit Mode Off then Save button. 
 
 # Youtube Video URL
 Click on this link, <> to watch the showcase of the team's Walk A S-Mile prorotype application.
