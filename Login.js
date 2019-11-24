@@ -24,7 +24,7 @@ export default class Login extends React.Component {
 		}
     }
     
-    // This function is for Map.js (zhiying)
+    // This function is for Map.js
     // This will need to run from the first screen page, thus it is here.
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
@@ -100,7 +100,7 @@ export default class Login extends React.Component {
         }
     }
 
-    // This function is for Profile.js (ZHIYING)
+    // This function is for Profile.js
     // This will need to run from the first screen page to retrieve all the user data from the db, thus it is here.
     Get_User_Profile_From_MySQL()
     { 
@@ -130,7 +130,7 @@ export default class Login extends React.Component {
         });
     }
 
-    // This function is for Profile.js (ZHIYING)
+    // This function is for Profile.js
     // This will need to run by the first screen page,
     // after getting the user profile from db and put
     // them into global variables so that it can be accessed
