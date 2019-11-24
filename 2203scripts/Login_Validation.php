@@ -12,11 +12,11 @@
 	 // decoding the received JSON and store into $obj variable.
 	 $obj = json_decode($json,true);
 	
-	//$username = $obj['username'];
-	//$password = $obj['password'];
+	$username = $obj['username'];
+	$password = $obj['password'];
 	
-	$username = 'zhiying';
-	$password = 'password';
+	//$username = 'zhiying';
+	//$password = 'password';
 
 	$Sql_Query = "SELECT * FROM login_account where username='$username' and password='$password'";
 	
