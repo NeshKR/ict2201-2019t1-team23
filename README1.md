@@ -22,4 +22,4 @@ Our Walk A S-Smile Application consists of 6 functions (Map, Profile, Challenges
 9. Once amendments are done, click on the Edit Mode Off then Save button. 
 
 # Youtube Video URL
-Click on this link, <> to watch the showcase of the team's Walk A S-Mile prorotype application.
+Click on this link, <> to watch the showcase of the team's Walk A S-Mile prototype application.
