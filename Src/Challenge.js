@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Content, Card, CardItem, Text, Right } from 'native-base';
-import { StyleSheet, TouchableOpacity, Image, Alert  } from 'react-native';
+import { StyleSheet,View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import { ListItem, Button, Icon, Text, Card, Divider } from 'react-native-elements';
 import { Pedometer } from "expo-sensors";
 
 class ChallengeLogoTitle extends React.Component {
@@ -223,134 +223,116 @@ export default class Challenge extends Component {
     }
   }
 
-  render() {
-    return (
-      <Container>
-        <Content>
-          <Card>
-            <CardItem>
-              <Text
-                style={[
-                  styles.TextInput,
-                  {
-                    color: this.state.current_challengestatus1 ? 'red' : 'black',
-                    //updating the challenge text color on true/false to see if the challenge is completed
-                    //red = challenge not completeed
-                    //black = chalenge completed 
-                  },
-                ]}
-              >1. Daily 10,000 Stepup challenge</Text>
-                <Right style={styles.ArrowHeadStyleLeft} >
-                  <TouchableOpacity style={styles.infoBtn} onPress={() => {this.Get_Challenges(1); }}>
-                    <Text style={styles.BtnText}>Info</Text>
-                  </TouchableOpacity>
-                </Right>
-                <Right style={styles.ArrowHeadStyle} >
-                  {/* <Icon name="arrow-forward" button onPress={() => alert("This is Card Header")}/> */}
-                  <TouchableOpacity style={styles.startBtn} onPress={() => { this.startButtonPress(1); }}>
-                    <Text style={styles.BtnText}>Start Now</Text>
-                  </TouchableOpacity>
-                </Right>
-              </CardItem>
-            <CardItem>
-              <Text>Start this challenge, walk and watch this go up: {this.state.currentStepCount}</Text>
-            </CardItem>
+  render(){ 
+    return(  //<ScrollView contentContainerStyle = {styles.container}>
+      <View style = {styles.container}>
+        <ScrollView>
+          <Card containerStyle={styles.card}>
+            <Text
+              style={[
+                styles.TextInput,
+                {
+                  color: this.state.current_challengestatus1 ? 'red' : 'black',
+                  //updating the challenge text color on true/false to see if the challenge is completed
+                  //red = challenge not completeed
+                  //black = chalenge completed 
+                },
+              ]}
+            >1. Daily 10,000 Stepup challenge</Text>
+            <Text>Start this challenge, walk and watch this go up: {this.state.currentStepCount}</Text>
+            <Divider style={{ backgroundColor: 'grey', marginVertical:10}} />
+            
+            <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
+              <Button buttonStyle={styles.infoBtn}
+              title='Info' onPress={() => {this.Get_Challenges(1); }}/>
+
+              <Button buttonStyle={styles.startBtn}
+              title='Start Now'onPress={() => { this.startButtonPress(1); }}/>
+            </View>
           </Card>
-          <Card>
-            <CardItem>
-              <Text
-                style={[
-                  styles.TextInput,
-                  {
-                    color: this.state.current_challengestatus2 ? 'red' : 'black',
-                    //updating the challenge text color on true/false to see if the challenge is completed
-                    //red = challenge not completeed
-                    //black = chalenge completed 
-                  },
-                ]}
-              >2. QRcode Scanning Challenge</Text>
-                <Right style={styles.ArrowHeadStyleLeft} >
-                  <TouchableOpacity style={styles.infoBtn} onPress={() => {this.Get_Challenges(2); }}>
-                    <Text style={styles.BtnText}>Info</Text>
-                  </TouchableOpacity>
-                </Right>
-                <Right style={styles.ArrowHeadStyle} >
-                  {/* <Icon name="arrow-forward" button onPress={() => alert("This is Card Header")}/> */}
-                  <TouchableOpacity style={styles.startBtn} onPress={() => { this.startButtonPress(2); }}>
-                    <Text style={styles.BtnText}>Start Now</Text>
-                  </TouchableOpacity>
-                </Right>
-            </CardItem>
+
+          <Card containerStyle={styles.card}>
+            <Text
+              style={[
+                styles.TextInput,
+                {
+                  color: this.state.current_challengestatus2 ? 'red' : 'black',
+                  //updating the challenge text color on true/false to see if the challenge is completed
+                  //red = challenge not completeed
+                  //black = chalenge completed 
+                },
+              ]}
+            >2. QRcode Scanning Challenge</Text>
+
+            <Divider style={{ backgroundColor: 'grey', marginVertical:10}} />
+          
+            <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
+              <Button buttonStyle={styles.infoBtn}
+              title='Info' onPress={() => {this.Get_Challenges(2); }}/>
+
+              <Button buttonStyle={styles.startBtn}
+              title='Start Now' onPress={() => { this.startButtonPress(2); }}/>
+            </View>
           </Card>
-          <Card>
-            <CardItem>
-              <Text
-                style={[
-                  styles.TextInput,
-                  {
-                    //color: global.challengestatus ? 'red' : 'black',
-                    color: this.state.current_challengestatus3 ? 'red' : 'black',
-                    //updating the challenge text color on true/false to see if the challenge is completed
-                    //red = challenge not completeed
-                    //black = chalenge completed 
-                  },
-                ]}
-              >3. Complete a route to get points</Text>
-                <Right style={styles.ArrowHeadStyleLeft} >
-                  <TouchableOpacity style={styles.infoBtn} onPress={() => {this.Get_Challenges(3); }}>
-                    <Text style={styles.BtnText}>Info</Text>
-                  </TouchableOpacity>
-                </Right>
-                <Right style={styles.ArrowHeadStyle} >
-                  {/* <Icon name="arrow-forward" button onPress={() => alert("This is Card Header")}/> */}
-                  <TouchableOpacity style={styles.startBtn} onPress={() => { this.startButtonPress(3); }}>
-                    <Text style={styles.BtnText}>Start Now</Text>
-                  </TouchableOpacity>
-                </Right>
-            </CardItem>
+
+          <Card containerStyle={styles.card}>
+            <Text
+              style={[
+                styles.TextInput,
+                {
+                  //color: global.challengestatus ? 'red' : 'black',
+                  color: this.state.current_challengestatus3 ? 'red' : 'black',
+                  //updating the challenge text color on true/false to see if the challenge is completed
+                  //red = challenge not completeed
+                  //black = chalenge completed 
+                },
+              ]}
+            >3. Complete a route to get points</Text>
+
+            <Divider style={{ backgroundColor: 'grey', marginVertical:10}} />
+            
+            <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
+              <Button buttonStyle={styles.infoBtn}
+              title='Info' onPress={() => {this.Get_Challenges(3); }}/>
+
+              <Button buttonStyle={styles.startBtn}
+              title='Start Now' onPress={() => { this.startButtonPress(3); }}/>
+            </View>
           </Card>
-        </Content>  
-      </Container>
+
+        </ScrollView>         
+      </View>
     );
   }
 }
 
+
 const styles = StyleSheet.create({
-  ArrowHeadStyle: {
-    marginLeft: "auto",
-    marginRight: "0%",
-    fontSize: 20,  
-    justifyContent: 'flex-end',
+  container: {
+    flex: 1,
+    width: '100%',
   },
-  ArrowHeadStyleLeft: {
+  card: {
+    backgroundColor: "rgba(255,245,238,0.7)",
+    borderWidth:1,
+    borderColor: "#fce2d1",
+    width: "95%",
     marginLeft: "auto",
-    marginRight: "5%",
-    fontSize: 20,  
-    justifyContent: 'flex-end',
-  },
-  BtnText: {
-    color: "white",
-    alignSelf: "center",
-    fontSize: 15,
-    marginTop: "10%",
-    marginBottom: "10%",
+    marginRight: "auto",
   },
   infoBtn: {
-    width: 40,
-    height: 30,
-    backgroundColor: "black",
-    borderRadius: 5,
-    marginLeft: "0%",
-    marginRight: "1%",
-    justifyContent: 'flex-end',
+    width: 100,
+    height: 40,
+    backgroundColor: "#4c97df",
+    borderRadius: 3,
+    alignSelf: "center",
   },
   startBtn: {
-    width: 75,
-    height: 30,
-    backgroundColor: "black",
-    borderRadius: 5,
-    marginLeft: 5,
-    marginRight: "0%",
-    justifyContent: "flex-end",
+    width: 100,
+    height: 40,
+    backgroundColor: "green",
+    borderRadius: 3,
+    alignSelf: "center",
   },
+    
 });
