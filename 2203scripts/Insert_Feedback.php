@@ -17,19 +17,19 @@
 	$description = $obj['description'];
 	 
 	 // Creating SQL query and insert the record into MySQL database table.
-	$Sql_Query = "insert into feedback (title,username,description) values ('$title','$username','$description')";
+	$Sql_Query = "INSERT INTO feedback (title,username,description) VALUES ('$title','$username','$description')";
 	 
  
 	if(mysqli_query($con,$Sql_Query)){
 		// If the record inserted successfully then show the message as response. 
-		$MSG = 'Your feedback has been sent. Thank you for your time!' ;
+		$MSG = 'Your feedback has been sent. Thank you for your time!';
 
 		// Converting the message into JSON format.
 		$json = json_encode($MSG);
 
 		// Echo the message on screen.
 		// We would also show this message on our app.
-		echo $json ;
+		echo $json;
 	 }
 	else{
 		echo 'Something Went Wrong';

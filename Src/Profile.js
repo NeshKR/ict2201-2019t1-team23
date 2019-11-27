@@ -188,36 +188,32 @@ export default class Profile extends React.Component{
         temp_dob = this.state.UP_Date_Of_Birth;
         this.Validation(temp_nric, temp_email, temp_phonenumber, temp_physicalstatus, temp_dob);
         if (this.state.Validate_status == true) {
-            this.setState({ ActivityIndicator_Loading : true }, () =>
-            {
-            fetch('http://'+ global.db_IP +'/2203scripts/Update_edited_profile.php',
-            {
-                method: 'POST',
-                headers: 
+            this.setState({ ActivityIndicator_Loading : true }, () => {
+                fetch('http://'+ global.db_IP +'/2203scripts/Update_edited_profile.php', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username : this.state.UP_Username,
+                        nric : this.state.UP_Nric,
+                        mobile_number : this.state.UP_Mobile_Number,
+                        email : this.state.UP_Email,
+                        dob : this.state.UP_Date_Of_Birth,
+                        gender : this.state.value,
+                        physical_status : this.state.UP_Physical_Status,
+                        orginal_username : global.User_name,
+                    }),
+                }).then((response) => response.json()).then((responseJsonFromServer) =>
                 {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(
+                    alert(responseJsonFromServer);
+                    this.setState({ ActivityIndicator_Loading : false });
+                }).catch((error) =>
                 {
-                    username : this.state.UP_Username,
-                    nric : this.state.UP_Nric,
-                    mobile_number : this.state.UP_Mobile_Number,
-                    email : this.state.UP_Email,
-                    dob : this.state.UP_Date_Of_Birth,
-                    gender : this.state.value,
-                    physical_status : this.state.UP_Physical_Status,
-                    orginal_username : global.User_name,
-                })
-            }).then((response) => response.json()).then((responseJsonFromServer) =>
-            {
-                alert(responseJsonFromServer);
-                this.setState({ ActivityIndicator_Loading : false });
-            }).catch((error) =>
-            {
-                console.error(error);
-                this.setState({ ActivityIndicator_Loading : false});
-            });
+                    console.error(error);
+                    this.setState({ ActivityIndicator_Loading : false});
+                });
             });
         }  
     }

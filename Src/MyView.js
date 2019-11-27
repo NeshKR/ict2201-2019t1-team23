@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View, ViewPropTypes
-} from 'react-native'; // Added ViewPropTypes
+import { View, ViewPropTypes } from 'react-native'; // Added ViewPropTypes
 
 const MyView = (props) => {
   const { children, hide, style } = props;

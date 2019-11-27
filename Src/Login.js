@@ -12,7 +12,8 @@ export default class Login extends React.Component {
         global.User_Point = 0,
         global.a = '',
         global.b = '',
-        global.db_IP = '172.20.10.5',
+        global.db_IP = '172.30.139.56',
+        //global.db_IP = '192.168.1.193',
         global.challengestatus = false,
 		this.state = {
 			LOGIN_username: '',
@@ -66,22 +67,31 @@ export default class Login extends React.Component {
 							username : this.state.Temp_LOGIN_username,
 							password : this.state.Temp_LOGIN_password,
 						})
-					}).then((response) => response.json()).then((responseJsonFromServer) =>
-					{
-                        Alert.alert(
-                            'Login',
-                            'You have login successfully.',
-                            [
-                              {text: 'OK', onPress: () => console.log('Ok Pressed'), style: 'cancel'},
-                            ],
-                            {cancelable: false},
-                        );
-                        this.setState({ ActivityIndicator_Loading : false });
+					}).then((response) => response.json()).then((responseJsonFromServer) => {
                         if(responseJsonFromServer == "Successfully Login"){
-                            this.props.navigation.navigate("Homepage_Screen");
+                            this.setState({ ActivityIndicator_Loading : false });
                             global.User_name = this.state.LOGIN_username;
                             // Call the function for Profile.js (ZHIYING)
                             global.User_profile_details = this.Get_User_Profile_From_MySQL();
+                            console.log("Successfully Login")
+                            Alert.alert(
+                                'Login',
+                                'You have login successfully.',
+                                [
+                                  {text: 'OK', onPress: () => this.props.navigation.navigate("Homepage_Screen") },
+                                ],
+                                {cancelable: false},
+                            );
+                        } 
+                        else{
+                            Alert.alert(
+                                'Login',
+                                responseJsonFromServer,
+                                [
+                                    {text: 'OK', onPress: () => console.log('Invalid Login'), style: 'cancel'},
+                                ],
+                                {cancelable: false},
+                            );
                         }
 					}).catch((error) =>
 					{
@@ -152,6 +162,12 @@ export default class Login extends React.Component {
                 global.UP_Gender = myArray[i]
             } else if (i==6) {
                global.UP_Physical_Status = myArray[i]
+            } else if (i==7){
+                global.UP_Usable_Points = myArray[i]
+            } else if (i==8){
+                global.UP_Total_Points = myArray[i]
+            } else if (i==9){
+                global.UP_Avatar = myArray[i]
             }
         }
     }

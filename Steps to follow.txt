@@ -1,0 +1,6 @@
+1) Move 2203scripts folder to xampp/htdocs
+2) Start apache and mysql
+3) Import 2203_db.sql
+4) Open Login.js and change the global.db_IP to your network's assigned IP address
+5) Compile and start the app
+6) Scan QR code and run it

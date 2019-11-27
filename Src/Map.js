@@ -7,11 +7,12 @@ import MyView from './MyView';
 import haversine from "haversine";
 import getNearestMrt from 'nearest-mrt'
 import Challenge from './Challenge';
+import ThreeAxisSensor from 'expo-sensors/build/ThreeAxisSensor';
 
 const { width, height } = Dimensions.get('window');
 // Center of Singapore Coordinate
 const LATITUDE = 1.290270;
-const LONGITUDE = -103.851959;
+const LONGITUDE = 103.851959;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyDFp2yQywbjLji78WiX8whPVBa4ClRwuCk';
 
 class MapLogoTitle extends React.Component {
@@ -75,18 +76,26 @@ class ExampleMap extends Component {
     this.mapView = null;
   }
 
-  ShowHideTextComponentView = () =>{
+  ShowEndLocEmpty = () => {
+    Alert.alert(
+      'Invalid Input',
+      'Destination cannot be empty! Please enter a destination in the field!',
+    )
+    console.log("Empty Destination")
+  }
+
+  ShowHideTextComponentView = () => {
     Alert.alert(
       'Challenge No.3: Complete a route to get points',
       'Do you want to start this challenge?',
       [
-        {text: 'OK', onPress: () => global.challenge3 = true},
+        {text: 'OK', onPress: () => { global.challenge3 = true, this.state.status==true, this.get_Destination() }},
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},    
       ],
       {cancelable: false},
     );
-    this.get_Destination()
-    this.state.status == true
+    //this.get_Destination()
+    //this.state.status == true
   }
 
   ShowHideMapView = () => {
@@ -98,17 +107,18 @@ class ExampleMap extends Component {
 
   get_Destination = () => {
     this.state.MAP_EndLoc =  this.state.MAP_EndLoc.replace(/\s+/g, '+').toLowerCase();
-    if (this.state.MAP_EndLoc.endsWith("+")) {
-      this.state.MAP_EndLoc = this.state.MAP_EndLoc.substring(0, this.state.MAP_EndLoc.length - 1);
-    }
-    this.state.zy_end_api = "https://maps.googleapis.com/maps/api/geocode/json?address=" + this.state.MAP_EndLoc + "&key=" + GOOGLE_MAPS_APIKEY;
-    console.log(this.state.zy_end_api)
-    fetch(this.state.zy_end_api, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
+    if (this.state.MAP_EndLoc != ""){
+      if (this.state.MAP_EndLoc.endsWith("+")) {
+        this.state.MAP_EndLoc = this.state.MAP_EndLoc.substring(0, this.state.MAP_EndLoc.length - 1);
+      }
+      this.state.zy_end_api = "https://maps.googleapis.com/maps/api/geocode/json?address=" + this.state.MAP_EndLoc + "&components=country:sg" + "&key=" + GOOGLE_MAPS_APIKEY;
+      console.log(this.state.zy_end_api)
+      fetch(this.state.zy_end_api, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
       }).then((response) => response.json()).then((responseData) => {
         this.setState({
           jsonData: JSON.stringify(responseData)
@@ -128,41 +138,52 @@ class ExampleMap extends Component {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(
-          {
+          body: JSON.stringify({
+            name : this.state.MAP_EndLoc,
             latitude : this.state.a,
             longitude : this.state.b,
           })
         }).then((response) => response.json()).then((responseJsonFromServer) =>
         {
+          console.log(responseJsonFromServer)
           this.setState({ ActivityIndicator_Loading : false });
         }).catch((error) =>
         {
           console.error(error);
           this.setState({ ActivityIndicator_Loading : false});
         });
-      });
-      //Get longitude and latitude from DB
-      fetch('http://'+ global.db_IP +'/2203scripts/get_long_lat.php',
-      {
-        method: 'POST',
-        headers: 
+        
+        //Get longitude and latitude from DB
+        fetch('http://'+ global.db_IP +'/2203scripts/get_long_lat.php',
         {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }).then((response) => response.json()).then((responseJsonFromServer2) =>
-      {
-        this.setState({ ActivityIndicator_Loading : false });
-        if(responseJsonFromServer2 != "Long lat not found!"){
+          method: 'POST',
+          headers: 
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            latitude : this.state.a,
+            longitude : this.state.b,
+          })
+        }).then((response2) => response2.json()).then((responseJsonFromServer2) =>
+        {
+          this.setState({ ActivityIndicator_Loading : false });
+          if(responseJsonFromServer2 != "Long lat not found!"){
             this.state.zy_lm_long_lat = responseJsonFromServer2;
+            //console.log("r:",responseJsonFromServer2)
             this.setFMLongLat();
-        }
-      }).catch((error) =>
-      {
-        console.error(error);
-        this.setState({ ActivityIndicator_Loading : false});
-      });
+          }
+        }).catch((error2) =>
+        {
+          console.error(error2);
+          this.setState({ ActivityIndicator_Loading : false});
+        });
+      })
+    } 
+    else{
+      this.ShowEndLocEmpty();
+    }
   }
 
   setFMLongLat() 
@@ -207,7 +228,8 @@ class ExampleMap extends Component {
         },
         display: true,
       });
-    } else {
+    } 
+    else {
       this.setState({
         coordinates : [
           { latitude: global.zy_latitude, longitude: global.zy_longitude, },
@@ -458,7 +480,6 @@ class ExampleMap extends Component {
                 showUserLocation
                 followUserLocation
                 loadingEnabled
-                loadingEnabled
                 initialRegion={{ 
                   latitude: LATITUDE, 
                   longitude: LONGITUDE, 
@@ -473,20 +494,20 @@ class ExampleMap extends Component {
                 )}
                 {(this.state.coordinates.length >= 2) && (
                   <MapViewDirections
-                    origin={this.state.coordinates[0]}
-                    waypoints={ (this.state.coordinates.length > 2) ? this.state.coordinates.slice(1, -1): null}
-                    destination={this.state.coordinates[this.state.coordinates.length-1]}
+                    origin={ this.state.coordinates[0] }
+                    waypoints={ (this.state.coordinates.length > 2) ? this.state.coordinates.slice(1, -1): null }
+                    destination={ this.state.coordinates[this.state.coordinates.length-1] }
                     mode="WALKING"
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={3}
+                    apikey={ GOOGLE_MAPS_APIKEY }
+                    strokeWidth={ 3 }
                     strokeColor="darkgrey"
-                    optimizeWaypoints={true}
-                    onStart={(params) => {
-                      console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+                    optimizeWaypoints={ true }
+                    onStart={ (params) => {
+                      console.log(`Started routing between "${ params.origin }" and "${ params.destination }"`);
                     }}
                     onReady={result => {
-                      console.log(`Distance: ${result.distance} km`)
-                      console.log(`Duration: ${result.duration} min.`)
+                      console.log(`Distance: ${ result.distance } km`)
+                      console.log(`Duration: ${ result.duration } min.`)
                       
                       this.mapView.fitToCoordinates(result.coordinates, {
                         edgePadding: {

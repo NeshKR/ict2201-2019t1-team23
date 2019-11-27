@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Text, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, View, TextInput, Text, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
 
 class FeedbackLogoTitle extends React.Component {
   render() {
@@ -34,41 +34,52 @@ export default class Feedback extends React.Component
     }
   }
 
+  emptyFormsFields = () => {
+    Alert.alert(
+      "Feedback",
+      "Empty field(s) detected! Please fill in all the necessary fields before submitting",
+    );
+    console.log("Empty field(s) detected")
+  }
+
   Insert_Data_Into_MySQL = () =>
   {
     this.state.Temp_FB_Title = this.state.FB_Title;
-    this.state.Temp_FB_Username = this.state.FB_Username;
+    this.state.Temp_FB_Username = global.User_name;
     this.state.Temp_FB_Description = this.state.FB_Description;
-    
-    this.setState({ ActivityIndicator_Loading : true }, () =>
-    {
-      fetch('http://'+ global.db_IP +'/2203scripts/Insert_Feedback.php',
+    if (this.state.Temp_FB_Title != "" && this.state.Temp_FB_Username != "" && this.state.Temp_FB_Description != ""){
+      this.setState({ ActivityIndicator_Loading : true }, () =>
       {
-        method: 'POST',
-        headers: 
+        fetch('http://'+ global.db_IP +'/2203scripts/Insert_Feedback.php',
         {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(
+          method: 'POST',
+          headers: 
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+          {
+            title : this.state.Temp_FB_Title,
+            username : this.state.Temp_FB_Username,
+            description : this.state.Temp_FB_Description,
+          })
+        }).then((response) => response.json()).then((responseJsonFromServer) =>
         {
-          title : this.state.Temp_FB_Title,
-          username : this.state.Temp_FB_Username,
-          description : this.state.Temp_FB_Description,
-        })
-      }).then((response) => response.json()).then((responseJsonFromServer) =>
-      {
-        alert(responseJsonFromServer);
-        this.setState({ ActivityIndicator_Loading : false });
-      }).catch((error) =>
-      {
-        console.error(error);
-        this.setState({ ActivityIndicator_Loading : false});
+          alert(responseJsonFromServer);
+          this.setState({ ActivityIndicator_Loading : false });
+        }).catch((error) =>
+        {
+          console.error(error);
+          this.setState({ ActivityIndicator_Loading : false});
+        });
       });
-    });
-    this.state.FB_Title = '',
-    this.state.FB_Username = '',
-    this.state.FB_Description = ''
+      this.state.FB_Title = '',
+      this.state.FB_Username = '',
+      this.state.FB_Description = ''
+    } else{
+      this.emptyFormsFields();
+    }
   }
 
   render()
@@ -85,10 +96,11 @@ export default class Feedback extends React.Component
           />
           
           <TextInput 
-            placeholder = "Enter username"
+            //placeholder = "Enter username"
+            placeholder = { global.User_name }
             style = { styles.TextInputStyleClass } 
             underlineColorAndroid = "transparent"
-            onChangeText = {(text) => this.setState({ FB_Username : text })} 
+            //onChangeText = {(text) => this.setState({ FB_Username : text })} 
             value = {this.state.FB_Username}
           />
 
