@@ -11,6 +11,9 @@ Walk A S-Mile is a gamified routing mobile application that aims to improve the 
 
 
 # Steps to follow to run Walk A S-Mile Application
+This section will tell the user on how to “run” the Walk A S-Mile prototype, including any special methods to interact with it.
+Be sure not to miss any of the following steps stated below!
+
 1. Move the 2203scripts folder under the “Compiled” branch in GitHub to xampp/htdocs
 
 2. Start apache and mysql
@@ -25,9 +28,10 @@ Walk A S-Mile is a gamified routing mobile application that aims to improve the 
 
 7. Scan QR code and run it
 
-# How to run Walk A S-Mile Application
-This section will tell the user on how to “run” our Walk A S-Mile prototype, including any special methods to interact with it.
+# How to use Walk A S-Mile Application
+This section will tell the user on how to use our Walk A S-Mile Application.
 Our Walk A S-Smile Application consists of 6 functions (Map, Profile, Challenges, Rewards, Leaderboard and Feedback). 
+Have fun exploring our Application!
 
 1. Click on the Walk A S-Mile application to launch it.
 
