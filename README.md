@@ -9,6 +9,7 @@ Walk A S-Mile is a gamified routing mobile application that aims to improve the 
 
 # Component Diagram
 
+![Component](https://www.lucidchart.com/publicSegments/view/372b51c9-4a50-42e1-a8ab-1c0d81bb8ef1/image.jpeg)
 
 # Steps to follow to run Walk A S-Mile Application
 This section will tell the user on how to “run” the Walk A S-Mile prototype, including any special methods to interact with it.
@@ -73,5 +74,6 @@ Once done, click on the Submit button. If user's feedback is sent successfully, 
 
 # Youtube Video URL
 
+https://www.youtube.com/watch?v=4RQCEPSJGkU&feature=youtu.be
 
 -- THE END --
