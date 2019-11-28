@@ -53,6 +53,24 @@ Have fun exploring our Application!
 
 10. Once necessary changes are made, click on the Save button.
 
+11. To view and know more information about the challenges available, user can tap on the Challenges tab.
+
+12. Upon clicking on the Challenges tab, click on the Info button to know more information about the challenges. 
+
+13. User can click on the Start Now button to take up a challenge. However, if user clicks on a challenge that is in progress or user is currently attempting another challenge, a message displaying, "This challenge is in progress. You have walked 100 steps." upon clicking on the Start Now button. If user clicks on a challenge that has been completed, a message displaying "Congrats! This challenge has been completed! You have earned 50 points!" upon clicking on the Start Now button. 
+
+14. To claim or view rewards, user can tap on the Rewards tab. User is able to see the exciting rewards available and the points needed to claim for each reward. 
+
+15. To redeem rewards, user can click on the logo of each reward. A confirmation message will be displayed before proceeding on. Once redeemed, total points accumulated by user will be updated accordingly. 
+If user does not have sufficient points a message displaying "Sorry, you do not have sufficient points to redeem this reward." will be shown. 
+
+16. To view leaderboard ranking, user can tap on the Leaderboard tab. On the Leaderboard page, user is able to see overall ranking and accumulated points gained. 
+
+17. To send a feedback regarding the route or application, user can tap the Feedback tab. 
+
+18. Upon clicking on the Feedback tab, user will need to enter a Feedback Title,  user's Username and the Feedback Description. 
+Once done, click on the Submit button. If user's feedback is sent successfully, a message displaying, "Your feedback has been sent. Thank you for your time!" will be shown.
+
 # Youtube Video URL
 
 
