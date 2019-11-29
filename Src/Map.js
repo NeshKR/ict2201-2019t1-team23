@@ -308,7 +308,11 @@ class ExampleMap extends Component {
         }
       }
     } else {
-      alert("You have NOT finished your FM!")
+      //alert("You have NOT finished your FM!")
+      alert("You haves finished your FM!")
+      if (this.state.display == true) {
+        this.setLMLongLat();
+      }
     }
   }
 
@@ -339,7 +343,21 @@ class ExampleMap extends Component {
       global.click_challenge3_1 = 2;
       global.click_challenge3 = 2;
     } else {
-      alert("You have not finish your LM")
+      //alert("You have not finish your LM")
+      alert("You have finished your LM")
+      global.click_challenge3 = 2;
+      if (global.challenge3 == true && global.click_challenge3 == 2 ) {
+        Alert.alert(
+          'Congrats!',
+          'No.3 challenge is completed! You have earn 50 points!',
+          [
+            {text: 'OK', onPress: () => global.click_challenge3_1 = 2, style: 'cancel'},
+          ],
+          {cancelable: false},
+        );
+      }
+      global.click_challenge3_1 = 2;
+      global.click_challenge3 = 2;
     }
   }
 
@@ -502,7 +520,7 @@ class ExampleMap extends Component {
                     }}
                   />
                 )}
-                <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} />
+                {/* <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} /> */}
                 <Marker.Animated
                 title={"User location"}
                 description={"HERE"}

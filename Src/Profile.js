@@ -208,6 +208,10 @@ export default class Profile extends React.Component{
                     gender : this.state.value,
                     physical_status : this.state.UP_Physical_Status,
                     orginal_username : global.User_name,
+                    usable_points : global.UP_Usable_Point,
+                    total_points : global.UP_Total_Point,
+                    challenge : global.UP_Challenges,
+                    avatar : global.UP_Avatar,
                 })
             }).then((response) => response.json()).then((responseJsonFromServer) =>
             {
