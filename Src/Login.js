@@ -13,6 +13,7 @@ export default class Login extends React.Component {
         global.a = '',
         global.b = '',
         global.db_IP = '172.20.10.5',
+        //global.db_IP = '192.168.1.7',
         global.challengestatus = false,
 		this.state = {
 			LOGIN_username: '',
@@ -68,16 +69,16 @@ export default class Login extends React.Component {
 						})
 					}).then((response) => response.json()).then((responseJsonFromServer) =>
 					{
-                        Alert.alert(
-                            'Login',
-                            'You have login successfully.',
-                            [
-                              {text: 'OK', onPress: () => console.log('Ok Pressed'), style: 'cancel'},
-                            ],
-                            {cancelable: false},
-                        );
                         this.setState({ ActivityIndicator_Loading : false });
                         if(responseJsonFromServer == "Successfully Login"){
+                            Alert.alert(
+                                'Login',
+                                'You have login successfully.',
+                                [
+                                  {text: 'OK', onPress: () => console.log('Ok Pressed'), style: 'cancel'},
+                                ],
+                                {cancelable: false},
+                            );
                             this.props.navigation.navigate("Homepage_Screen");
                             global.User_name = this.state.LOGIN_username;
                             // Call the function for Profile.js (ZHIYING)
@@ -122,6 +123,7 @@ export default class Login extends React.Component {
             if(responseJsonFromServer != "User profile not found!"){
                 this.state.UP = responseJsonFromServer;
                 this.setVariables();
+                //alert(global.UP_Usable_Point);
             }
         }).catch((error) =>
         {
@@ -152,6 +154,14 @@ export default class Login extends React.Component {
                 global.UP_Gender = myArray[i]
             } else if (i==6) {
                global.UP_Physical_Status = myArray[i]
+            } else if (i==7) {
+                global.UP_Usable_Point = myArray[i]
+            } else if (i==8) {
+                global.UP_Total_Point = myArray[i]
+            }  else if (i==9) {
+                global.UP_Challenges = myArray[i]
+            }  else if (i==10) {
+                global.UP_Avatar = myArray[i]
             }
         }
     }

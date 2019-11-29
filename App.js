@@ -10,6 +10,7 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
 const RootStack = createStackNavigator ({
+    //Challenge_Screen : {screen: Challenge},
     Login_Screen : {screen: Login},
     Map_Screen : {screen: ExampleMap},
     Homepage_Screen : {screen: Homepage},

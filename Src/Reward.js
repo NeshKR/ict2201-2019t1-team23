@@ -1,76 +1,108 @@
-import React, { Component } from 'react';
-import { Container, Content, Card, CardItem, Text, Icon, Right } from 'native-base';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-export default class Reward extends Component {
-  render() {
-    return (
-      <Container>
-        <Content>
-          <Card>
-            <CardItem>
-              <Card transparent style={{width: "75%"}}>
-                <Text>1. Get extra 1GB of data (Singtel User only)</Text>
-              </Card>
-              <Right style={styles.ArrowHeadStyle} >
-                <TouchableOpacity style={styles.infoBtn} onPress={() => alert("This is Card Header")}>
-                  <Text style={styles.BtnText}>Redeem</Text>
-                </TouchableOpacity>
-              </Right>
-            </CardItem>
-          </Card>
-          <Card>
-            <CardItem>
-              <Card transparent style={{width: "75%"}}>
-                <Text>2. Get a free movie ticket (Shaw Theatre only)</Text>
-              </Card>
-              <Right style={styles.ArrowHeadStyle} >
-                <TouchableOpacity style={styles.infoBtn} onPress={() => alert("This is Card Header")}>
-                  <Text style={styles.BtnText}>Redeem</Text>
-                </TouchableOpacity>
-              </Right>
-            </CardItem>
-          </Card>
-          <Card>
-            <CardItem>
-              <Card transparent style={{width: "75%"}}>
-                <Text>3. Get a free gym pass for a day (Community GYM only)</Text>
-              </Card>
-              <Right style={styles.ArrowHeadStyle} >
-                <TouchableOpacity style={styles.infoBtn} onPress={() => alert("This is Card Header")}>
-                  <Text style={styles.BtnText}>Redeem</Text>
-                </TouchableOpacity>
-              </Right>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
+import React, { Component } from "react";
+import { Alert, StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from "react-native";
+import { Container, Content, Separator } from "native-base";
+
+export default class Rewards extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+      dataSource: [],
+      collapsed:true,
+		}
+	}
+
+	redeemreward = () => {
+    Alert.alert(
+      "Redeem",
+      "Are you sure you want to redeem this reward?",
+      // Add additional stuff for backend; Add reward for user, Minus available points for user
+      [
+        {text: "Yes", onPress: () => console.log("Yes was pressed")},
+        {text: "No", onPress: () => console.log("No was pressed"), style: "cancel"},
+      ]
     );
   }
+
+  noredeemreward = () => {
+    Alert.alert(
+      "Redeem",
+      "Sorry, you do not have sufficient points to redeem this reward",
+    );
+  }
+
+	async componentDidMount() {
+		try {
+			const response = await fetch("http://" + global.db_IP + "/2203scripts/Rewards.php");
+			const responseJson = await response.json();
+			this.setState({
+				dataSource: responseJson,
+			});
+		}
+		catch (error) {
+			console.error(error);
+		}
+	};
+
+	renderHeader() {
+		return (
+		<View style={{ backgroundColor: "#119abf", padding: 15, paddingTop: 35, alignItems: "center" }}>
+			<Text style={{ fontSize: 25, color: "white" }}>Rewards</Text>
+		</View>
+  )};
+
+	renderItemOK = ({ item }) => {
+    afterPoints = parseInt(global.UP_Usable_Point) - item.reward_point;
+    if (parseInt(global.UP_Usable_Point) >= item.reward_point) {
+      return (
+        <View style={{ flex: 0, flexDirection: "row" }}>
+          <TouchableOpacity activeOpacity={ .5 } onPress={ this.redeemreward }>
+            <Image style={{ width: 80, height: 80, margin: 5 }} source={{ uri: item.reward_img }} />
+          </TouchableOpacity>
+          <View style={{ flex: 2, justifyContent: "center" }}>
+            <Text>{ item.reward_name }</Text>
+            <Text style={{ fontWeight: "bold", color: "green" }}>{ item.reward_point } points</Text>
+            <Text>Adding redeeming, you'll have <Text style={{ fontWeight: "bold", color: "red" }}>{ afterPoints }</Text> points left</Text>
+          </View>
+        </View>
+    )};
+  }
+  renderItemKO = ({ item }) => {
+    addPoints = item.reward_point - parseInt(global.UP_Usable_Point);
+    if (parseInt(global.UP_Usable_Point) < item.reward_point) {
+      return (
+        <View style={{ flex: 0, flexDirection: "row" }}>
+          <TouchableOpacity activeOpacity={ .5 } onPress={ this.noredeemreward }>
+            <Image style={{ width: 80, height: 80, margin: 5 }} source={{ uri: item.reward_img }} />
+          </TouchableOpacity>
+          <View style={{ flex: 2, justifyContent: "center" }}>
+            <Text>{ item.reward_name }</Text>
+            <Text>{ item.reward_point } points</Text>
+            <Text style={{ fontWeight: "bold", color: "red" }}>Require {addPoints} additional points to redeem</Text>
+          </View>
+        </View>
+    )};
+  }
+	
+	render() {
+		return (
+		<Container> 
+			{ this.renderHeader() }
+      <Content>
+        <Separator bordered style={{height: '10%'}}>
+          <Text style={ styles.titleText }>Redeemable Rewards</Text>
+        </Separator>
+        <FlatList data={ this.state.dataSource } renderItem={ this.renderItemOK } />
+        <Separator bordered style={{height: '10%'}}>
+          <Text style={ styles.titleText }>Unredeemable Rewards</Text>
+        </Separator >
+        <FlatList data={ this.state.dataSource } renderItem={ this.renderItemKO } />
+      </Content>
+		</Container>
+	)};
 }
-
 const styles = StyleSheet.create({
-  ArrowHeadStyle: {
-    marginLeft: "auto",
-    marginRight: "5%",
-    fontSize: 20, 
-    width: "5%",
-    justifyContent: 'flex-end',
-  },
-
-  BtnText: {
-    color: "white",
-    alignSelf: "center",
+  titleText: {
     fontSize: 15,
-    marginTop: "10%",
-    marginBottom: "10%",
-  },
-  infoBtn: {
-    width: 65,
-    height: 30,
-    backgroundColor: "black",
-    borderRadius: 5,
-    marginLeft: "0%",
-    marginRight: "0%",
-    justifyContent: 'flex-end',
+    fontWeight: "bold",
   },
 });
